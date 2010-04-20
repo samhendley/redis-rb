@@ -1049,6 +1049,17 @@ class RedisTest < Test::Unit::TestCase
 
       assert_equal 0, @r.dbsize
     end
+
+    test "Pipelined gets work" do
+      @r.set("k1","v1")
+      @r.set("k2","v2")
+      v1, v2 = @r.pipelined do |pipeline|
+        pipeline.get("k1")
+        pipeline.get("k2")
+      end
+      assert_equal "v1", v1
+      assert_equal "v2", v2
+    end
   end
 
   context "Deprecated methods" do

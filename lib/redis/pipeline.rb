@@ -13,8 +13,9 @@ class Redis
 
     def execute
       return if @commands.empty?
-      @redis.call_command(@commands)
+      results = @redis.call_command(@commands)
       @commands.clear
+      results
     end
   end
 end
